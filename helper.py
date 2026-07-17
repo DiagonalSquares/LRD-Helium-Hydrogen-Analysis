@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import os
 import re
+import json
 
 def get_data(hdul):
     wavelength = hdul[1].data["wave"]
@@ -30,4 +31,14 @@ def get_id(filename):
 def filter_out_filename_extension(filename):
     return filename.split(".")[0]
 
+def write_data_to_json(data, json_file):
+    print("Writing to " + json_file + "...")
+    with open(json_file, "w") as file:
+        json.dump(data, file, indent=2)
+    print("Writing complete.")
+
+def read_json(json_file, flux_id, item):
+    with open(json_file, "r") as file:
+        data = json.load(file)
+    return data[flux_id][item]
 

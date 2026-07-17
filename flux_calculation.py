@@ -13,13 +13,6 @@ def calculate_flux(spec, line): #finding flux
     intg_flux = spec.frame.loc[[line], ['intg_flux']].iloc[0,0]
     return profile_flux, profile_flux_err, intg_flux
 
-def write_data_to_json(data, json_file, filename): #writing flux to a json file for easy access
-    print("Writing to " + json_file + "...")
-    with open(json_file, "a") as file:
-        json.dump(data, file, indent=2)
-    print("Writing complete.")
-    #written with the help of gemini
-
 def fix_flux_units(flux, flux_error, wavelength): #this is done because flux is originally in Jansky, but we need a different unit to properly function within LiME-Graphs
     fixed_flux = []
     fixed_flux_error = []
@@ -86,13 +79,13 @@ for filename in data_files:
         flux_data[filename] = {
             "Flux": profile_flux,
             "Flux Error": profile_flux_error,
-            "Integrated FLux": intg_flux,
+            "Integrated Flux": intg_flux,
         }
         print("profile flux: " + str(profile_flux))
         print("Flux error:", profile_flux_error)
     except Exception as e:
         print("Flux not found", e) #currently getting an error for one of the files not having any flux
 
-write_data_to_json(flux_data, "flux.json", filename)
+write_data_to_json(flux_data, "flux.json")
 
 hdul.close()
