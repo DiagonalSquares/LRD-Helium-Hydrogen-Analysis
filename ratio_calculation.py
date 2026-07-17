@@ -31,7 +31,7 @@ STOP_TEMP = 25000
 START_DEN = 1e10
 STOP_DEN = 1e13
 
-STEPS = 50
+STEPS = 100
 
 temperature_range = np.linspace(START_TEMP, STOP_TEMP, num=STEPS)
 density_range = np.logspace(10, 13, num=STEPS)
@@ -123,7 +123,18 @@ for i in range(len(densities_index)):
         flux_ratios.append(matrix[densities_index[i], j])
     plt.plot(temperature_range, flux_ratios, label=str(f"{density_range[densities_index[i]]/1e11:.3f}"))
 
-plt.scatter(nearest_temeperatures, measured_ratios)
+positive_errors = []
+negative_errors = []
+for filename in data_files:
+    try:
+        positive_errors.append(read_json("flux_error.json", filename, "Positive Error"))
+        negative_errors.append(read_json("flux_error.json", filename, "Negative Error"))
+    except:
+        print("something went wrong")
+
+print("positive_errors:", positive_errors)
+print("negative_errors:", negative_errors)
+plt.errorbar(nearest_temeperatures, measured_ratios, fmt='o', yerr=[positive_errors, negative_errors])
 
 plt.xlabel("Temperature (K)")
 plt.ylabel("Flux Ratio (He I $\\lambda10830$ / H I Paschen $\\gamma$)")

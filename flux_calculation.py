@@ -34,8 +34,6 @@ he1_fluxes = {"28074": 82.11, "40579": 95, "17775": 24.679, "154183": 2.7} #thes
 line = 'H1_10941A' #Paschen Gamma Line
 flux_data = {}
 
-open("flux.json", "w")
-
 #using LiME to calculate the H1 fluxes
 for filename in data_files:
     #from https://lime-stable.readthedocs.io/en/latest/2_guides/0_creating_observations.html

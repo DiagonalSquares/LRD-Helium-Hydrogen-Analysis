@@ -9,9 +9,13 @@ def error_quadrature(error1, error2):
 
 def fractional_error_quadrature(error1, quantity1, error2, quantity2):
     quotient = quantity1/quantity2
+    print("quotient:", quotient)
     percent_error1 = error1/quantity1
     percent_error2 = error2/quantity2
+    print("percent_error1:", percent_error1)
+    print("percent_error2:", percent_error2)
     overall_error = quotient * error_quadrature(percent_error1, percent_error2)
+    print("overall_error:", overall_error)
     return overall_error
 
 #path to data
@@ -27,8 +31,8 @@ He1_fluxes = {"28074": 82.11e-18, "40579": 70e-18, "17775": 24.579e-18, "154183"
 He1_errors_positive = {"28074": [0.51e-18, 1.2e-18], "17775": [0.96e-18, 2.126e-18], "154183": [0.3e-18, 0.5e-18]} #taken from papers
 He1_errors_negative = {"28074": [-0.52e-18, -1.3e-18], "17775": [-0.96e-18, -2.126e-18], "154183": [-0.3e-18, -0.5e-18]} #also taken from papers
 
-He1_total_errors_positive = {}
-He1_total_errors_negative = {}
+He1_total_errors_positive = {"40579": 4e-18} #total was already calculated by paper
+He1_total_errors_negative = {"40579": -3e-18} #same here
 
 ratio_errors_positive = {}
 ratio_error_negative = {}
@@ -43,6 +47,9 @@ for filename in data_files:
     except Exception as e:
         print("something went wrong", e)
 
+print("He1_total_errors_positive:", He1_total_errors_positive)
+print("He1_total_errors_negative:", He1_total_errors_negative)
+
 data = {}
 print("data_files:", data_files)
 for filename in data_files:
@@ -55,15 +62,15 @@ for filename in data_files:
         ratio_error_positive = fractional_error_quadrature(
             He1_total_errors_positive[name],
             He1_fluxes[name],
-            H1_flux,
-            H1_flux_error
+            H1_flux_error,
+            H1_flux
         )
 
         ratio_error_negative = fractional_error_quadrature(
             He1_total_errors_negative[name],
             He1_fluxes[name],
-            H1_flux,
-            H1_flux_error
+            H1_flux_error,
+            H1_flux
         )
 
         data[filename] = {
