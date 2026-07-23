@@ -1,4 +1,3 @@
-*.fits
 *.json
 *.png
 *.venv
@@ -8,5 +7,6 @@ __pycache__/
 basic-graphs/
 Fitted-Graphs/
 LiME-Graphs/
-
-testing.py
+helium_flux_graphs/
+hydrogen_flux_graphs/
+json_files/
